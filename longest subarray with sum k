@@ -1,0 +1,25 @@
+# You are given an array 'a' of size 'n' and an integer 'k'.
+# Find the length of the longest subarray of 'a' whose sum is equal to 'k'.
+int longestSubarrayWithSumK(vector<int> a, long long k) {
+    unordered_map<long long, int> mp;
+    long long sum = 0;
+    int ans = 0;
+
+    for (int i = 0; i < a.size(); i++) {
+        sum += a[i];
+
+        if (sum == k) {
+            ans = max(ans, i + 1);
+        }
+
+        if (mp.find(sum - k) != mp.end()) {
+            ans = max(ans, i - mp[sum - k]);
+        }
+
+        if (mp.find(sum) == mp.end()) {
+            mp[sum] = i;
+        }
+    }
+
+    return ans;
+}
